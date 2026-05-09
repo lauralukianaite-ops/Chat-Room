@@ -1,14 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+   <children>
+      <BorderPane layoutX="-1.0" layoutY="-1.0" prefHeight="601.0" prefWidth="200.0">
+         <left>
+            <VBox prefHeight="601.0" prefWidth="249.0" spacing="10.0" style="-fx-background-color: #2b2b2b;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label prefHeight="47.0" prefWidth="149.0" text="User" textFill="#c9c9c9">
+                     <padding>
+                        <Insets left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <Label fx:id="usernameLabel" text="loading..." textFill="WHITE">
+                     <padding>
+                        <Insets left="30.0" right="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                  </Label>
+                  <Line endX="148.29287719726562" endY="-0.8283966779708862" startX="-100.0" stroke="#c9c9c9">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Line>
+                  <Label prefHeight="32.0" prefWidth="149.0" text="Rooms" textFill="#c9c9c9">
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <ListView fx:id="roomsList" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #2f2f2f;" />
+                  <Line endX="149.5" startX="-100.0" stroke="#c9c9c9" />
+                  <Label prefHeight="32.0" prefWidth="149.0" text="Direct messages" textFill="#c9c9c9">
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <ListView fx:id="usersList" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #2f2f2f;" />
+               </children>
+            </VBox>
+         </left>
+      </BorderPane>
+   </children>
 </AnchorPane>
