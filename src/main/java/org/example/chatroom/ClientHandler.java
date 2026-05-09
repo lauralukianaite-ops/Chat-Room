@@ -21,14 +21,19 @@ public class ClientHandler implements Runnable{
 
             while (true) {
                 //serveris laukia zinute is konkretaus kliento
-                Object obj = in.readObject();
-                if (obj instanceof String) {
-                    String message = (String) obj;
-                    System.out.println("New message: " + message);
-                }
+                Message msg = (Message) in.readObject();
+                Main.broadcast(msg);
             }
         } catch (Exception e) {
             System.out.println("Client disconnected.");
+        }
+    }
+    public void sendMessage(Message msg) {
+        try {
+            out.writeObject(msg);
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
