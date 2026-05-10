@@ -13,7 +13,6 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.chatroom.ChatController">
    <children>
       <BorderPane layoutX="-1.0" layoutY="-1.0" prefHeight="601.0" prefWidth="200.0">
@@ -44,18 +43,39 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Line>
-                  <Label prefHeight="32.0" prefWidth="149.0" text="Rooms" textFill="#c9c9c9">
-                     <padding>
-                        <Insets left="20.0" right="20.0" />
-                     </padding>
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Label>
+                  <HBox prefHeight="43.0" prefWidth="251.0">
+                     <children>
+                        <Label prefHeight="32.0" prefWidth="149.0" text="Rooms" textFill="#c9c9c9">
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </Label>
+                     </children>
+                  </HBox>
                   <ListView fx:id="roomsList" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #2f2f2f;" />
+                  <HBox prefHeight="51.0" prefWidth="251.0">
+                     <children>
+                        <TextField fx:id="newRoomField" style="-fx-background-color: #c9c9c9;" text="Add a new room...">
+                           <HBox.margin>
+                              <Insets left="20.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button mnemonicParsing="false" onAction="#onCreateRoom" prefHeight="26.0" prefWidth="32.0" style="-fx-background-color: #2f2f2f;" text="+" textFill="WHITE">
+                           <HBox.margin>
+                              <Insets left="20.0" top="5.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
                   <Line endX="149.5" startX="-100.0" stroke="#4d4d4d" />
                   <Label prefHeight="32.0" prefWidth="149.0" text="Direct messages" textFill="#c9c9c9">
                      <padding>
@@ -106,7 +126,7 @@
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </padding>
                      <children>
-                        <TextField fx:id="messageField" prefHeight="37.0" prefWidth="487.0" style="-fx-background-color: #c9c9c9;" text="Write a message...." HBox.hgrow="ALWAYS">
+                        <TextField fx:id="messageField" onAction="#onSendMessage" prefHeight="37.0" prefWidth="487.0" style="-fx-background-color: #c9c9c9;" text="Write a message...." HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="16.0" />
                            </font>

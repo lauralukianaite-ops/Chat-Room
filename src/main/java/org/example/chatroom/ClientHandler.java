@@ -22,12 +22,21 @@ public class ClientHandler implements Runnable{
             while (true) {
                 //serveris laukia zinute is konkretaus kliento
                 Message msg = (Message) in.readObject();
-                Main.broadcast(msg);
+
+                if ("NEW_ROOM".equals(msg.getType())) {
+                    DataStorage.saveRoom(msg.getContent());
+                    Main.broadcast(msg);
+                } else if ("CHAT".equals(msg.getType())) {
+                    // Įprastas žinučių transliavimas
+                    Main.broadcast(msg);
+                    DataStorage.saveMessage(msg.getSender() + ": " + msg.getContent());
+                }
             }
         } catch (Exception e) {
             System.out.println("Client disconnected.");
         }
     }
+
     public void sendMessage(Message msg) {
         try {
             out.writeObject(msg);

@@ -1,6 +1,8 @@
 package org.example.chatroom;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable {
     private String sender;
     private String content;
     private String type;
@@ -17,5 +19,9 @@ public class Message {
 
     public String getContent() {
         return content;
+    }
+
+    public String getType() {
+        return type;
     }
 }
