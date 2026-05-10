@@ -31,15 +31,26 @@ public class ChatController {
     @FXML private TextField newRoomField;
 
     public void setupChat(String user, Socket s, ObjectOutputStream out, ObjectInputStream in) {
-        this.user = user; this.out = out; this.in = in;
+        this.user = user;
+        this.out = out;
+        this.in = in;
+
         usernameLabel.setText(user);
+        currentRoomLabel.setText("# bendras");
 
         roomsList.getItems().clear();
-        if (!roomsList.getItems().contains("# bendras")) {
-            roomsList.getItems().add("# bendras");
-            roomsList.setStyle("-fx-control-inner-background: #2b2b2b; -fx-background-color: #2b2b2b; -fx-selection-bar: #0091b5;");
+        roomsList.getItems().add("# bendras");
+        roomsList.setStyle("-fx-control-inner-background: #2b2b2b; -fx-background-color: #2b2b2b; -fx-selection-bar: #0091b5;");
+        usersList.setStyle("-fx-control-inner-background: #2b2b2b; -fx-background-color: #2b2b2b; -fx-selection-bar: #0091b5;");
+
+        List<String> savedRooms = DataStorage.loadRooms();
+        for (String room : savedRooms) {
+            if (!roomsList.getItems().contains(room)) {
+                roomsList.getItems().add(room);
+            }
         }
-        currentRoomLabel.setText("# bendras");
+
+        loadRoomHistory("# bendras");
 
         // Gija, kuri laukia žinučių
         new Thread(() -> {
@@ -47,13 +58,18 @@ public class ChatController {
                 while (true) {
                     Message m = (Message) in.readObject();
                     Platform.runLater(() -> {
-                        if ("NEW_ROOM".equals(m.getType())) {
+                        if ("USER_JOINED".equals(m.getType())) {
+                            // Jei gavome pranešimą apie naują vartotoją, pridedame jį į sąrašą
+                            // nenaudojame savo vardo, kad nematytume savęs sąraše
+                            if (!m.getSender().equals(user) && !usersList.getItems().contains(m.getSender())) {
+                                usersList.getItems().add(m.getSender());
+                            }
+                        } else if ("NEW_ROOM".equals(m.getType())) {
                             // Jei tokio kambario dar nėra sąraše, pridedame
                             if (!roomsList.getItems().contains(m.getContent())) {
                                 roomsList.getItems().add(m.getContent());
                             }
                         } else if ("CHAT".equals(m.getType())) {
-                            System.out.println("Gauta žinutė: " + m.getContent() + " | room: " + m.getRoom() + " | currentRoom: " + currentRoomLabel.getText());
                             if (m.getRoom() != null && m.getRoom().equals(currentRoomLabel.getText())) {
                                 appendMessageToUI(m);
                             }
@@ -62,15 +78,6 @@ public class ChatController {
                 }
             } catch (Exception e) { e.printStackTrace(); }
         }).start();
-
-        try {
-            List<String> lines = Files.readAllLines(Paths.get("messages.txt"));
-            for (String line : lines) {
-                appendMessageToUI(new Message("", line, "CHAT", currentRoomLabel.getText()));
-            }
-        } catch (IOException e) {
-            System.out.println("No previous chat history");
-        }
 
         roomsList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
@@ -81,6 +88,33 @@ public class ChatController {
         });
 
         loadRoomHistory("# bendras");
+
+        usersList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                String privateRoom = getPrivateRoomName(user, newVal);
+                currentRoomLabel.setText(privateRoom); //
+                chatContainer.getChildren().clear();
+                loadRoomHistory(privateRoom);
+            }
+        });
+
+        try {
+            // Siunčiame žinutę, kad mes prisijungėme
+            out.writeObject(new Message(user, "connected ", "USER_JOINED", ""));
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<String> allUsers = DataStorage.loadUsers();
+        for (String u : allUsers) {
+            if (!u.equals(user)) usersList.getItems().add(u);
+        }
+    }
+
+    private String getPrivateRoomName(String user1, String user2) {
+        if (user1.compareTo(user2) < 0) return "@" + user1 + "-" + user2;
+        else return "@" + user2 + "-" + user1;
     }
 
     @FXML

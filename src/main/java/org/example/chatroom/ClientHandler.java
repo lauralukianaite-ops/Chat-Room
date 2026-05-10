@@ -8,6 +8,7 @@ public class ClientHandler implements Runnable{
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private String username;
 
     public ClientHandler (Socket socket){
         this.socket = socket;
@@ -19,6 +20,11 @@ public class ClientHandler implements Runnable{
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
 
+            Message firstMsg = (Message) in.readObject();
+            this.username = firstMsg.getSender();
+
+            Main.broadcast(new Message("Server", username, "USER_JOINED", ""));
+
             while (true) {
                 //serveris laukia zinute is konkretaus kliento
                 Message msg = (Message) in.readObject();
@@ -29,6 +35,15 @@ public class ClientHandler implements Runnable{
                 } else if ("CHAT".equals(msg.getType())) {
                     // Įprastas žinučių transliavimas
                     DataStorage.saveMessage(msg.getRoom() + ";" + msg.getSender() + ";" + msg.getContent());
+                    Main.broadcast(msg);
+                }
+                if (msg.getRoom().startsWith("@")) {
+                    // Tai privati žinutė!
+                    String recipient = msg.getRoom().substring(1); // Nuimam @ simbolį
+                    DataStorage.saveMessage(msg.getRoom() + ";" + msg.getSender() + ";" + msg.getContent());
+                    Main.sendPrivateMessage(msg, recipient);
+                } else {
+                    // Įprasta kambario žinutė
                     Main.broadcast(msg);
                 }
             }
@@ -45,5 +60,9 @@ public class ClientHandler implements Runnable{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

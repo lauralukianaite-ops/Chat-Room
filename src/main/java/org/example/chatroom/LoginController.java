@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 public class LoginController {
 
@@ -23,6 +24,9 @@ public class LoginController {
             System.out.println("Enter your name!");
             return;
         }
+
+        List<String> existingUsers = DataStorage.loadUsers();
+        DataStorage.saveUser(username);
 
         try {
             //Jungiamės prie serverio

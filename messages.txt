@@ -1,2 +1,21 @@
 # bendras;Laura;sveiki
 # pagalba;Laura;Laba diena!!
+# bendras;Laurynas;Laba diena visiems!!
+# JAVA;Ona;Kasnors padarete 5-ta uzduoti???
+# JAVA;Laura;Labas, beveik padariau
+@Laurynas;Laura;Labas
+@Laurynas;Laura;ALIO
+@Laura-Laurynas;Laura;Labas
+@Laura-Laurynas;Laura;ALIO
+@Laurynas-Ona;Laurynas;Labas Ona, ka veiki
+@Laurynas-Petras;Laurynas;Petras yra grazus vardas
+@Laurynas-Ona;Ona;Nieko neveikiu, Laurynai, o tu ka veiki
+@Laura-Ona;Ona;Gali atsiusti 5-ta uzudoti?
+# JAVA;Laurynas;As turiu jau padares 5-ta uzduoti!
+@Laurynas-Ona;Laurynas;As irgi nieko
+@Laura-Ona;Laura;ne
+@Laura-Laurynas;Laurynas;Labas
+@Laura-Laurynas;Laura;Ka tu?
+@Laura-Laurynas;Laurynas;nieko o tu ka?
+@Laura-Laurynas;Laurynas;matei kad ona nesupranta 5-tos uzduoties?
+@Laura-Laurynas;Laura;HAHAHA

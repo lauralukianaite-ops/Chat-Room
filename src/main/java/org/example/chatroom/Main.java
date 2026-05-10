@@ -25,9 +25,19 @@ public class Main {
             e.printStackTrace();
         }
     }
+
     public static void broadcast(Message msg) {
         for (ClientHandler client : clients) {
             client.sendMessage(msg);
+        }
+    }
+
+    public static void sendPrivateMessage(Message msg, String recipientName) {
+        for (ClientHandler client : clients) {
+            // Čia tau reikės ClientHandler klasėje turėti metodą getUsername()
+            if (client.getUsername().equals(recipientName) || client.getUsername().equals(msg.getSender())) {
+                client.sendMessage(msg);
+            }
         }
     }
 }
