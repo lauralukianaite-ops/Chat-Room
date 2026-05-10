@@ -1,5 +1,2 @@
-Laura: Sveiki!
-Laura: Kaip gyvenate?
-Laura: Laura
-Laura: Labas
-Laurynas: Labas laura!!
+# bendras;Laura;sveiki
+# pagalba;Laura;Laba diena!!

@@ -28,11 +28,12 @@ public class ClientHandler implements Runnable{
                     Main.broadcast(msg);
                 } else if ("CHAT".equals(msg.getType())) {
                     // Įprastas žinučių transliavimas
+                    DataStorage.saveMessage(msg.getRoom() + ";" + msg.getSender() + ";" + msg.getContent());
                     Main.broadcast(msg);
-                    DataStorage.saveMessage(msg.getSender() + ": " + msg.getContent());
                 }
             }
         } catch (Exception e) {
+            Main.clients.remove(this);
             System.out.println("Client disconnected.");
         }
     }
